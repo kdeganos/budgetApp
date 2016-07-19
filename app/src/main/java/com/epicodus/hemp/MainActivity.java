@@ -2,6 +2,10 @@ package com.epicodus.hemp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.TableRow;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -11,12 +15,17 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+    @Bind(R.id.monthlyBudget) TextView mMonthlyBudget;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         PieChart pieChart = (PieChart) findViewById(R.id.chart);
         // creating data values
@@ -27,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
         entries.add(new Entry(12f, 3));
         entries.add(new Entry(18f, 4));
         entries.add(new Entry(9f, 5));
+        entries.add(new Entry(9f, 6));
+
+
 
         PieDataSet dataset = new PieDataSet(entries, "# of Calls");
         dataset.setValueTextSize(12f);
@@ -39,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         labels.add("April");
         labels.add("May");
         labels.add("June");
+        labels.add("July");
 
         dataset.setColors(ColorTemplate.COLORFUL_COLORS);
 
@@ -46,5 +59,14 @@ public class MainActivity extends AppCompatActivity {
         pieChart.setData(data);
 
         pieChart.setDescription("Description");  // set the description
+
+        mMonthlyBudget.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == mMonthlyBudget) {
+            Log.d("XXXXXXXX", "onClick: ");
+        }
     }
 }
