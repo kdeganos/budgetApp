@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.epicodus.hemp.MainActivity">
+    tools:context=".ui.MainActivity">
 
     <ScrollView android:id="@+id/ScrollViewID"
         android:layout_width="fill_parent"
@@ -23,6 +23,7 @@
             android:background="#ed8404">
 
             <TextView
+                android:id="@+id/totalBudget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -54,11 +55,12 @@
                 android:layout_weight="1"
                 android:background="#ed8404"
                 android:gravity="center"
-                android:padding="32dp"
+                android:padding="31dp"
                 android:text="Monthly Budget"
                 android:textColor="#fff" />
 
             <TextView
+                android:id="@+id/weeklyBudget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
@@ -66,17 +68,18 @@
                 android:layout_weight="1"
                 android:background="#ed8404"
                 android:gravity="center"
-                android:padding="32dp"
+                android:padding="31dp"
                 android:text="Weekly Budget"
                 android:textColor="#fff" />
 
             <TextView
+                android:id="@+id/dailyBudget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#ed8404"
                 android:gravity="center"
-                android:padding="32dp"
+                android:padding="31dp"
                 android:text="Daily Budget"
                 android:textColor="#fff" />
         </TableRow>

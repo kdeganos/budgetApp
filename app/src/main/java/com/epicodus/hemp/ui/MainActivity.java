@@ -19,13 +19,22 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+    private double mTotal;
+    private double mTotalMonthly;
+    private double mTotalWeekly;
+    private double mTotalDaily;
+
     @Bind(R.id.monthlyBudget) TextView mMonthlyBudget;
+    @Bind(R.id.weeklyBudget) TextView mWeeklyBudget;
+    @Bind(R.id.dailyBudget) TextView mDailyBudget;
+    @Bind(R.id.chart) PieChart mPieChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,46 +42,84 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        PieChart pieChart = (PieChart) findViewById(R.id.chart);
+        displayPieChart(1d);
+
+        mMonthlyBudget.setOnClickListener(this);
+        mWeeklyBudget.setOnClickListener(this);
+        mDailyBudget.setOnClickListener(this);
+
+    }
+
+    public void displayPieChart(double args) {
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+//        PieChart pieChart = (PieChart) findViewById(R.id.chart);
         // creating data values
+
+        DecimalFormat dec = new DecimalFormat();
+
+        dec.setGroupingUsed(false);
+
+        dec.setMinimumFractionDigits(2);
+        dec.setMaximumFractionDigits(2);
+
+        float groceries = Float.parseFloat(dec.format(args * 0.1d));
+        float entertainment = Float.parseFloat(dec.format(args * 0.2d));
+        float housing = Float.parseFloat(dec.format(args * 0.2d));
+        float clothing = Float.parseFloat(dec.format(args * 0.1d));
+        float transportation = Float.parseFloat(dec.format(args * 0.1d));
+        float shopping = Float.parseFloat(dec.format(args * 0.1d));
+        float nightlife = Float.parseFloat(dec.format(args * 0.2d));
+
         ArrayList<Entry> entries = new ArrayList<>();
-        entries.add(new Entry(4f, 0));
-        entries.add(new Entry(8f, 1));
-        entries.add(new Entry(6f, 2));
-        entries.add(new Entry(12f, 3));
-        entries.add(new Entry(18f, 4));
-        entries.add(new Entry(9f, 5));
-        entries.add(new Entry(9f, 6));
 
-
+        entries.add(new Entry(groceries, 0));
+        entries.add(new Entry(entertainment, 1));
+        entries.add(new Entry(housing, 2));
+        entries.add(new Entry(clothing, 3));
+        entries.add(new Entry(transportation, 4));
+        entries.add(new Entry(shopping, 5));
+        entries.add(new Entry(nightlife, 6));
 
         PieDataSet dataset = new PieDataSet(entries, "# of Calls");
         dataset.setValueTextSize(12f);
 
         // creating labels
         ArrayList<String> labels = new ArrayList<String>();
-        labels.add("January");
-        labels.add("February");
-        labels.add("March");
-        labels.add("April");
-        labels.add("May");
-        labels.add("June");
-        labels.add("July");
+        labels.add("Groceries");
+        labels.add("Entertainment");
+        labels.add("Housing");
+        labels.add("Clothing");
+        labels.add("Transportation");
+        labels.add("Shopping");
+        labels.add("Nightlife");
 
         dataset.setColors(ColorTemplate.COLORFUL_COLORS);
 
         PieData data = new PieData(labels, dataset); // initialize Piedata
-        pieChart.setData(data);
+        mPieChart.setData(data);
 
-        pieChart.setDescription("Description");  // set the description
+        mPieChart.setDescription("Description");  // set the description
+
+        mMonthlyBudget.setText("Monthly Budget: $" + dec.format(mTotalMonthly));
+        mWeeklyBudget.setText("Weekly Budget: $" + dec.format(mTotalWeekly));
+        mDailyBudget.setText("Daily Budget: $" + dec.format(mTotalDaily));
 
         mMonthlyBudget.setOnClickListener(this);
+        mWeeklyBudget.setOnClickListener(this);
+        mDailyBudget.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         if (view == mMonthlyBudget) {
-            Log.d("XXXXXXXX", "onClick: ");
+            displayPieChart(mTotalMonthly);
+        }
+        if (view == mWeeklyBudget) {
+            displayPieChart(mTotalWeekly);
+        }
+        if (view == mDailyBudget) {
+            displayPieChart(mTotalDaily);
         }
     }
 
@@ -87,9 +134,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
+
+
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Log.d("XXXXX", "onQueryTextSubmit: " + query);
+                mTotal = Double.parseDouble(query);
+                DecimalFormat dec = new DecimalFormat();
+
+                dec.setMinimumFractionDigits(2);
+                dec.setMaximumFractionDigits(2);
+
+                mTotalMonthly = (mTotal / 12);
+                mTotalWeekly = (mTotal / 52);
+                mTotalDaily = (mTotal / 365);
+
+                mMonthlyBudget.setText("Monthly Budget: $" + dec.format(mTotalMonthly));
+                mWeeklyBudget.setText("Weekly Budget: $" + dec.format(mTotalWeekly));
+                mDailyBudget.setText("Daily Budget: $" + dec.format(mTotalDaily));
+
                 return false;
             }
 
