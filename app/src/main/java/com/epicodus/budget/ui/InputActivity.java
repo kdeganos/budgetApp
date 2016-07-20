@@ -1,9 +1,9 @@
-package com.epicodus.hemp.ui;
+package com.epicodus.budget.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.epicodus.hemp.R;
+import com.epicodus.budget.R;
 
 public class InputActivity extends AppCompatActivity {
 

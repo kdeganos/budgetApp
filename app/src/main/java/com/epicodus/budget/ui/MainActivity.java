@@ -1,18 +1,19 @@
-package com.epicodus.hemp.ui;
+package com.epicodus.budget.ui;
 
+import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.epicodus.hemp.R;
+import com.epicodus.budget.Constants;
+import com.epicodus.budget.R;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Bind(R.id.monthlyBudget) TextView mMonthlyBudget;
     @Bind(R.id.weeklyBudget) TextView mWeeklyBudget;
     @Bind(R.id.dailyBudget) TextView mDailyBudget;
+    @Bind(R.id.totalBudget) TextView mTotalBudget;
     @Bind(R.id.chart) PieChart mPieChart;
 
     @Override
@@ -48,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mWeeklyBudget.setOnClickListener(this);
         mDailyBudget.setOnClickListener(this);
 
+//        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        mEditor = mSharedPreferences.edit();
+
     }
 
     public void displayPieChart(double args) {
@@ -56,10 +61,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        PieChart pieChart = (PieChart) findViewById(R.id.chart);
         // creating data values
 
+        DecimalFormat decComma = new DecimalFormat();
         DecimalFormat dec = new DecimalFormat();
 
-        dec.setGroupingUsed(false);
+        decComma.setMinimumFractionDigits(2);
+        decComma.setMaximumFractionDigits(2);
 
+        dec.setGroupingUsed(false);
         dec.setMinimumFractionDigits(2);
         dec.setMaximumFractionDigits(2);
 
@@ -81,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         entries.add(new Entry(shopping, 5));
         entries.add(new Entry(nightlife, 6));
 
-        PieDataSet dataset = new PieDataSet(entries, "# of Calls");
+        PieDataSet dataset = new PieDataSet(entries, "in $");
         dataset.setValueTextSize(12f);
 
         // creating labels
@@ -99,11 +107,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         PieData data = new PieData(labels, dataset); // initialize Piedata
         mPieChart.setData(data);
 
-        mPieChart.setDescription("Description");  // set the description
+        mPieChart.setDescription("Budget Breakdown");  // set the description
 
-        mMonthlyBudget.setText("Monthly Budget: $" + dec.format(mTotalMonthly));
-        mWeeklyBudget.setText("Weekly Budget: $" + dec.format(mTotalWeekly));
-        mDailyBudget.setText("Daily Budget: $" + dec.format(mTotalDaily));
+        mMonthlyBudget.setText("Monthly Budget: $" + decComma.format(mTotalMonthly));
+        mWeeklyBudget.setText("Weekly Budget: $" + decComma.format(mTotalWeekly));
+        mDailyBudget.setText("Daily Budget: $" + decComma.format(mTotalDaily));
+
+        mTotalBudget.setText("Total Budget: $" + decComma.format(mTotal));
 
         mMonthlyBudget.setOnClickListener(this);
         mWeeklyBudget.setOnClickListener(this);
@@ -121,6 +131,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (view == mDailyBudget) {
             displayPieChart(mTotalDaily);
         }
+//        if (view == mDailyExpenditure) {
+//            String dailyExpenditure =
+//
+//            Intent intent = new Intent(MainActivity.this, InputActivity.class);
+//        }
     }
 
     @Override
@@ -152,6 +167,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mWeeklyBudget.setText("Weekly Budget: $" + dec.format(mTotalWeekly));
                 mDailyBudget.setText("Daily Budget: $" + dec.format(mTotalDaily));
 
+                mTotalBudget.setText("Total Budget: $" + dec.format(mTotal));
+
                 return false;
             }
 
@@ -162,5 +179,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         });
         return true;
+    }
+
+    private void addToSharedPreferences(String location) {
+//        mEditor.putString(Constants.PREFERENCES_INCOME_KEY, income).apply();
     }
 }

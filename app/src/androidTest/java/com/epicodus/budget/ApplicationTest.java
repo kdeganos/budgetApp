@@ -1,4 +1,4 @@
-package com.epicodus.hemp;
+package com.epicodus.budget;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

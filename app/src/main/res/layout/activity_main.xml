@@ -37,7 +37,7 @@
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/chart"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="350dp"
                 android:layout_weight="1"
                 />
         </TableRow>
@@ -91,6 +91,7 @@
             android:layout_marginTop="2dp">
 
             <TextView
+                android:id="@+id/dailyExpenditure"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="2dp"
@@ -98,7 +99,7 @@
                 android:background="#ed8404"
                 android:gravity="center"
                 android:padding="32dp"
-                android:text="Daily Income"
+                android:text="Daily Expenditure"
                 android:textColor="#fff" />
 
             <TextView
@@ -108,7 +109,7 @@
                 android:background="#ed8404"
                 android:gravity="center"
                 android:padding="32dp"
-                android:text="Daily Expenditure"
+                android:text="Daily Savings"
                 android:textColor="#fff" />
 
         </TableRow>

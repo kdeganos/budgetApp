@@ -1,4 +1,4 @@
-package com.epicodus.hemp;
+package com.epicodus.budget;
 
 import org.junit.Test;
 
